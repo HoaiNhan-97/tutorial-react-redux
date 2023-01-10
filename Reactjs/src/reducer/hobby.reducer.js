@@ -9,6 +9,9 @@ function hobbyReducer(state=initalHobby,action){
 
             newState.list.push(action.payload);
           return newState
+        case "hobby/ACTIVE":
+
+          return {...state,active:action.payload};
         default:
           return state;
       }

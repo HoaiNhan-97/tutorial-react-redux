@@ -1,11 +1,13 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addHobby } from "~/action/hobby.action";
+import { addHobby,activeHobby } from "~/action/hobby.action";
+import HobbyItem from "./HobbyItem";
 import styles from "./Hobby.module.scss";
 const cx = classNames.bind(styles);
 function Hobby() {
     const hobbyList = useSelector(state => state.hobby.list);
+    const activeHobbyId = useSelector(state => state.hobby.active)
     const dispatch = useDispatch();
     let [hobbyName,setHobbyName] = useState("");
     function handleSubmit(e){
@@ -19,6 +21,9 @@ function Hobby() {
         
         
     }
+    function handleClickHobby (hobbyId){
+        dispatch(activeHobby(hobbyId))
+    }
     return <div className={cx("container")}>
         <h1>Hello My Hobby</h1>
         <form onSubmit={handleSubmit}>
@@ -26,11 +31,8 @@ function Hobby() {
             <button>Add</button>
         </form>
         <div>
-            <ul>
-                {hobbyList.map(item => {
-                    return <li key={item.id}>{item.title}</li>
-                })}
-            </ul>
+            <h3>Hobby list</h3>
+            <HobbyItem hobbyList={hobbyList} onlickHobby = {handleClickHobby} active = {activeHobbyId}/>
         </div>
 
     </div>;

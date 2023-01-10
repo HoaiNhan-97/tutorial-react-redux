@@ -4,3 +4,10 @@ export function addHobby(hobby){
         payload:hobby
     }
 }
+
+export function activeHobby(hobbyId){
+    return {
+        type:"hobby/ACTIVE",
+        payload:hobbyId
+    }
+}
