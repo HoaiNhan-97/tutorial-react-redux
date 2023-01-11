@@ -1,14 +1,16 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { addHobby,activeHobby } from "~/action/hobby.action";
 import HobbyItem from "./HobbyItem";
 import styles from "./Hobby.module.scss";
 const cx = classNames.bind(styles);
-function Hobby() {
-    const hobbyList = useSelector(state => state.hobby.list);
-    const activeHobbyId = useSelector(state => state.hobby.active)
-    const dispatch = useDispatch();
+function Hobby({hobbyList,activeHobbyId,hobbyitem,submit,DispatchHobbyItem}) {
+    // const hobbyList = useSelector(state => state.hobby.list);
+    // const activeHobbyId = useSelector(state => state.hobby.active)
+    // const {hobbyList}
+    // console.log("item",submit)
+    // const dispatch = useDispatch();
     let [hobbyName,setHobbyName] = useState("");
     function handleSubmit(e){
         e.preventDefault();
@@ -16,13 +18,14 @@ function Hobby() {
             id:Date.now(),
             title:hobbyName
         }
-        dispatch(addHobby(hobbyItem))
+        submit(hobbyItem)
+        // dispatch(addHobby(hobbyItem))
         setHobbyName("");
         
         
     }
     function handleClickHobby (hobbyId){
-        dispatch(activeHobby(hobbyId))
+        DispatchHobbyItem(hobbyId)
     }
     return <div className={cx("container")}>
         <h1>Hello My Hobby</h1>
@@ -37,5 +40,26 @@ function Hobby() {
 
     </div>;
 }
+const mapStateToProps = (state,ownProps)=>{
+    //1673452756708
+    let {id} = ownProps
+    let hobbyitem = state.hobby.list.filter(item => item.id === id )[0]
+    return {
+        hobbyList: state.hobby.list,
+        activeHobbyId: state.hobby.active,
+        hobbyitem
+    }
+}
 
-export default Hobby;
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        submit: (hobby)=>{
+            dispatch(addHobby(hobby))
+        },
+        DispatchHobbyItem: (hobbyId) =>{
+            dispatch(activeHobby(hobbyId))
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Hobby);

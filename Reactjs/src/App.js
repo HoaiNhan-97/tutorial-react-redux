@@ -5,7 +5,7 @@ function App() {
     return (
         <div className="App">
             <h1>React JS</h1>
-            <Hobby/>
+            <Hobby id = {1673452756708}/>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 let initalHobby = {
-    list:[],
+    list:[{id: 1673452756708, title: 'java'}],
     active:null
 }
 function hobbyReducer(state=initalHobby,action){
